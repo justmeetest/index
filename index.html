@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AffirmFlow for Creators</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F9F6F1 0%, #F7D27B 100%);
+            min-height: 100vh;
+            color: #1C1C1E;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #1C1C1E;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+            color: #D17A2E;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0 0;
+            color: #8AA38B;
+            font-weight: 500;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: #F9F6F1;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(209, 122, 46, 0.1);
+            border: 1px solid rgba(209, 122, 46, 0.1);
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 30px;
+            background: rgba(246, 183, 86, 0.1);
+            border-radius: 16px;
+            padding: 8px;
+        }
+
+        .tab {
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #1C1C1E;
+        }
+
+        .tab.active {
+            background: #D17A2E;
+            color: #F9F6F1;
+            box-shadow: 0 4px 12px rgba(209, 122, 46, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1C1C1E;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .field-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .lock-btn {
+            background: none;
+            border: 2px solid #8AA38B;
+            border-radius: 8px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #8AA38B;
+            transition: all 0.3s ease;
+        }
+
+        .lock-btn.locked {
+            background: #8AA38B;
+            color: #F9F6F1;
+        }
+
+        .dropdown-container {
+            position: relative;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #F6B756;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #F9F6F1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #1C1C1E;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #D17A2E;
+            box-shadow: 0 0 0 3px rgba(209, 122, 46, 0.1);
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #F6B756;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-top: 10px;
+            display: none;
+            transition: all 0.3s ease;
+            background: #F9F6F1;
+            color: #1C1C1E;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: #D17A2E;
+            box-shadow: 0 0 0 3px rgba(209, 122, 46, 0.1);
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            padding: 10px 16px;
+            border: 2px solid #8AA38B;
+            background: #F9F6F1;
+            color: #8AA38B;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-btn:hover {
+            background: #8AA38B;
+            color: #F9F6F1;
+            transform: translateY(-1px);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #D17A2E 0%, #F6B756 100%);
+            color: #F9F6F1;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(209, 122, 46, 0.3);
+        }
+
+        .result-section {
+            background: #F9F6F1;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(209, 122, 46, 0.1);
+            border: 1px solid rgba(209, 122, 46, 0.1);
+            min-height: 400px;
+        }
+
+        .affirmation-display {
+            background: linear-gradient(135deg, #D17A2E 0%, #F6B756 100%);
+            border-radius: 16px;
+            color: #F9F6F1;
+            margin-bottom: 30px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .affirmation-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .output-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 16px;
+            border: 2px solid #F6B756;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #F9F6F1;
+            color: #1C1C1E;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            padding: 12px 16px;
+            border: 2px solid #8AA38B;
+            background: #F9F6F1;
+            color: #8AA38B;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background: #8AA38B;
+            color: #F9F6F1;
+            transform: translateY(-1px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .help-section {
+            background: rgba(138, 163, 139, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .help-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: #D17A2E;
+            margin-top: 0;
+        }
+
+        .help-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .help-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(138, 163, 139, 0.2);
+        }
+
+        .money-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .money-card {
+            background: rgba(246, 183, 86, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #D17A2E;
+        }
+
+        .money-card h4 {
+            font-family: 'Playfair Display', serif;
+            color: #D17A2E;
+            margin-top: 0;
+        }
+
+        .footer-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #D17A2E;
+            color: #F9F6F1;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(209, 122, 46, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .footer-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(209, 122, 46, 0.4);
+        }
+
+        .batch-section {
+            background: rgba(138, 163, 139, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .batch-item {
+            background: #F9F6F1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #D17A2E;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .batch-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .batch-btn {
+            padding: 8px 16px;
+            background: #8AA38B;
+            color: #F9F6F1;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .batch-btn:hover {
+            background: #D17A2E;
+            transform: translateY(-1px);
+        }
+
+        .creator-type-section, .mood-section, .options-section {
+            margin-bottom: 30px;
+        }
+
+        .creator-buttons, .mood-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .creator-btn, .mood-btn {
+            padding: 16px 20px;
+            border: 2px solid #F6B756;
+            background: #F9F6F1;
+            color: #1C1C1E;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .creator-btn:hover, .mood-btn:hover {
+            background: #F6B756;
+            color: #1C1C1E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(246, 183, 86, 0.3);
+        }
+
+        .creator-btn.active, .mood-btn.active {
+            background: #D17A2E;
+            color: #F9F6F1;
+            border-color: #D17A2E;
+            box-shadow: 0 4px 12px rgba(209, 122, 46, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-button {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                width: 100%;
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✨ AffirmFlow for Creators</h1>
+            <p>Personalized affirmations for solopreneurs, creatives & coaches</p>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('prompt')">Prompt Generator</button>
+                    <button class="tab" onclick="switchTab('help')">Help Me Out</button>
+                    <button class="tab" onclick="switchTab('money')">Money Making Ideas</button>
+                    <button class="tab" onclick="switchTab('skills')">Grow Your Skills</button>
+                </div>
+
+                <div id="prompt-content" class="tab-content active">
+                    <div class="creator-type-section">
+                        <h3 style="font-family: 'Playfair Display', serif; color: #D17A2E; margin-bottom: 20px;">I am a...</h3>
+                        <div class="creator-buttons">
+                            <button class="creator-btn active" data-type="solopreneur" onclick="selectCreatorType('solopreneur')">
+                                💼 Solopreneur
+                            </button>
+                            <button class="creator-btn" data-type="creative" onclick="selectCreatorType('creative')">
+                                🎨 Creative
+                            </button>
+                            <button class="creator-btn" data-type="coach" onclick="selectCreatorType('coach')">
+                                🌟 Coach
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mood-section">
+                        <h3 style="font-family: 'Playfair Display', serif; color: #D17A2E; margin-bottom: 20px;">Today I need...</h3>
+                        <div class="mood-buttons">
+                            <button class="mood-btn" data-mood="confidence" onclick="selectMood('confidence')">
+                                ✨ Confidence Boost
+                            </button>
+                            <button class="mood-btn" data-mood="motivation" onclick="selectMood('motivation')">
+                                🚀 Motivation
+                            </button>
+                            <button class="mood-btn" data-mood="calm" onclick="selectMood('calm')">
+                                🧘‍♀️ Calm Energy
+                            </button>
+                            <button class="mood-btn" data-mood="abundance" onclick="selectMood('abundance')">
+                                💰 Abundance Mindset
+                            </button>
+                            <button class="mood-btn" data-mood="creativity" onclick="selectMood('creativity')">
+                                🎭 Creative Flow
+                            </button>
+                            <button class="mood-btn" data-mood="courage" onclick="selectMood('courage')">
+                                💪 Courage
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="options-section">
+                        <div class="form-group">
+                            <label>Glow-Up Boost</label>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <label style="display: flex; align-items: center; gap: 8px; margin: 0; cursor: pointer;">
+                                    <input type="radio" name="glow-boost" value="On" checked style="margin: 0;">
+                                    <span>On</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; margin: 0; cursor: pointer;">
+                                    <input type="radio" name="glow-boost" value="Off" style="margin: 0;">
+                                    <span>Off</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How many affirmations?</label>
+                            <select id="quantity">
+                                <option value="1">1 affirmation</option>
+                                <option value="3">3 affirmations</option>
+                                <option value="5" selected>5 affirmations</option>
+                                <option value="10">10 affirmations</option>
+                                <option value="20">20 affirmations</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="generate-btn" onclick="generateAffirmation()">✨ Generate My Affirmations</button>
+                </div>
+
+                <div id="help-content" class="tab-content">
+                    <div class="help-section">
+                        <h3>How It Works</h3>
+                        <ul class="help-list">
+                            <li>1. Select your creator type (Solopreneur, Creative, or Coach)</li>
+                            <li>2. Choose what you need today (confidence, motivation, calm, etc.)</li>
+                            <li>3. Toggle Glow-Up Boost for enhanced language</li>
+                            <li>4. Pick how many affirmations you want</li>
+                            <li>5. Generate your personalized affirmations!</li>
+                        </ul>
+                    </div>
+                    <div class="help-section">
+                        <h3>Pro Tips</h3>
+                        <ul class="help-list">
+                            <li>• No mood selected? We'll pick one that fits your energy</li>
+                            <li>• Generate 20-30 affirmations for a monthly content calendar</li>
+                            <li>• Use "Add to Batch" to collect your favorites</li>
+                            <li>• Glow-Up Boost adds descriptors like "radiant" and "magnetic"</li>
+                        </ul>
+                    </div>
+                    <p style="margin-top: 20px; font-style: italic; color: #8AA38B;">Need more tools? Explore My Creator Hub.</p>
+                </div>
+
+                <div id="money-content" class="tab-content">
+                    <div class="help-section">
+                        <h3>Starter Ideas</h3>
+                        <div class="money-grid">
+                            <div class="money-card">
+                                <h4>Wallpaper Sets</h4>
+                                <p>Desktop & phone backgrounds with affirmations</p>
+                            </div>
+                            <div class="money-card">
+                                <h4>Planner Cards</h4>
+                                <p>Printable affirmation cards for planners</p>
+                            </div>
+                            <div class="money-card">
+                                <h4>Social Post Packs</h4>
+                                <p>Ready-to-post affirmations for Instagram</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="help-section">
+                        <h3>Advanced Strategies</h3>
+                        <div class="money-grid">
+                            <div class="money-card">
+                                <h4>B2B Licensing</h4>
+                                <p>License affirmations to coaches and therapists</p>
+                            </div>
+                            <div class="money-card">
+                                <h4>Monthly Membership</h4>
+                                <p>Subscription service with fresh affirmations</p>
+                            </div>
+                            <div class="money-card">
+                                <h4>Seasonal Bundles</h4>
+                                <p>Holiday-themed affirmation collections</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px; font-style: italic; color: #8AA38B;">Want advanced strategies? Explore My Creator Hub.</p>
+                </div>
+
+                <div id="skills-content" class="tab-content">
+                    <div class="help-section">
+                        <h3>Recommended Communities</h3>
+                        <ul class="help-list">
+                            <li>• DCT AI Learning Lab</li>
+                            <li>• The Digital Front Porch</li>
+                            <li>• Cultural Creators AI Club</li>
+                        </ul>
+                        <p style="margin-top: 20px; font-style: italic; color: #8AA38B;">Find these communities inside My Creator Hub.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="affirmation-display">
+                    <div class="affirmation-text" id="affirmation-text">
+                        Click "Generate" to create your personalized affirmation! ✨
+                    </div>
+                </div>
+
+                <textarea id="output-textarea" class="output-textarea" placeholder="Your generated affirmations will appear here..."></textarea>
+
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="glowUpBoost()">🌟 Glow-Up Boost</button>
+                    <button class="action-btn" onclick="addToBatch()">📝 Add to Batch</button>
+                    <button class="action-btn" onclick="copyOutput()">📋 Copy Output</button>
+                </div>
+
+                <div class="batch-section">
+                    <h3 style="font-family: 'Playfair Display', serif; color: #D17A2E; margin-bottom: 15px;">Batch Collection</h3>
+                    <div class="batch-controls">
+                        <button class="batch-btn" onclick="copyAllBatch()">Copy All</button>
+                        <button class="batch-btn" onclick="exportTXT()">Export TXT</button>
+                        <button class="batch-btn" onclick="clearBatch()">Clear Batch</button>
+                    </div>
+                    <div id="batch-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://www.HappeeAI.store" target="_blank" rel="noopener noreferrer" class="footer-button">
+        Explore My Creator Hub
+    </a>
+
+    <script>
+        let currentAffirmation = '';
+        let batchAffirmations = [];
+        let selectedCreatorType = 'solopreneur';
+        let selectedMood = null;
+
+        const glowDescriptors = ['radiant', 'rooted', 'magnetic', 'steady', 'luminous', 'grounded', 'calm', 'brave', 'clear', 'wholehearted'];
+
+        const affirmationTemplates = {
+            solopreneur: {
+                confidence: [
+                    'I trust my business instincts completely',
+                    'My unique vision creates value in the world',
+                    'I am capable of building something extraordinary',
+                    'Every challenge strengthens my entrepreneurial spirit',
+                    'I make bold decisions with confidence and clarity'
+                ],
+                motivation: [
+                    'I take consistent action toward my business goals',
+                    'My persistence creates unstoppable momentum',
+                    'Every small step builds my empire',
+                    'I am motivated by my vision of success',
+                    'My dedication to my craft inspires others'
+                ],
+                calm: [
+                    'I navigate business challenges with steady composure',
+                    'My calm energy attracts the right opportunities',
+                    'I make clear decisions from a centered place',
+                    'Peace and productivity flow together naturally',
+                    'I trust the timing of my business journey'
+                ],
+                abundance: [
+                    'Money flows to me through multiple income streams',
+                    'I am worthy of financial abundance and success',
+                    'My business creates wealth for myself and others',
+                    'Opportunities for profit appear everywhere I look',
+                    'I receive payment joyfully for my valuable work'
+                ],
+                creativity: [
+                    'My innovative ideas set me apart in the marketplace',
+                    'Creativity and strategy work together in my business',
+                    'I solve problems with original and effective solutions',
+                    'My creative approach attracts ideal clients',
+                    'Innovation flows through every aspect of my work'
+                ],
+                courage: [
+                    'I take bold action even when the path is uncertain',
+                    'My courage to be different creates my competitive edge',
+                    'I speak up for my ideas with confidence',
+                    'Fear transforms into fuel for my success',
+                    'I am brave enough to build the business of my dreams'
+                ]
+            },
+            creative: {
+                confidence: [
+                    'My artistic vision is valuable and needed',
+                    'I create from a place of authentic self-expression',
+                    'My creative work touches hearts and changes lives',
+                    'I trust my artistic instincts completely',
+                    'My unique style is my greatest strength'
+                ],
+                motivation: [
+                    'I show up to my creative practice with dedication',
+                    'Every piece I create builds my artistic legacy',
+                    'My passion for art fuels consistent action',
+                    'I am committed to growing my creative skills',
+                    'My art deserves to be seen and celebrated'
+                ],
+                calm: [
+                    'I create from a place of peaceful flow',
+                    'My art emerges naturally when I trust the process',
+                    'Creativity and tranquility dance together beautifully',
+                    'I honor my creative rhythms with gentle patience',
+                    'My calm energy infuses beauty into everything I make'
+                ],
+                abundance: [
+                    'My creative work generates abundant income',
+                    'People gladly invest in my artistic creations',
+                    'I am worthy of being paid well for my art',
+                    'My creativity opens doors to financial freedom',
+                    'Abundance flows through my artistic expression'
+                ],
+                creativity: [
+                    'Ideas flow through me like a river of inspiration',
+                    'My imagination knows no limits or boundaries',
+                    'I am a channel for divine creative expression',
+                    'Every day brings fresh artistic inspiration',
+                    'My creativity expands with each piece I complete'
+                ],
+                courage: [
+                    'I share my art boldly with the world',
+                    'My vulnerability in art creates powerful connections',
+                    'I am brave enough to create what has never existed',
+                    'Fear cannot stop my artistic expression',
+                    'I courageously explore new creative territories'
+                ]
+            },
+            coach: {
+                confidence: [
+                    'I have the wisdom and skills to guide others',
+                    'My life experience is valuable coaching material',
+                    'I trust my ability to facilitate transformation',
+                    'My coaching creates lasting positive change',
+                    'I am confident in my unique coaching approach'
+                ],
+                motivation: [
+                    'I am passionate about helping others succeed',
+                    'Every client interaction fuels my purpose',
+                    'My commitment to growth inspires my clients',
+                    'I consistently show up as my best coaching self',
+                    'My dedication to service creates meaningful impact'
+                ],
+                calm: [
+                    'I hold space for others with peaceful presence',
+                    'My calm energy creates safety for transformation',
+                    'I listen deeply and respond with wisdom',
+                    'Serenity and strength guide my coaching sessions',
+                    'I trust the perfect timing of each client\'s journey'
+                ],
+                abundance: [
+                    'My coaching business thrives financially',
+                    'I attract clients who value and invest in growth',
+                    'My expertise commands premium coaching fees',
+                    'Abundance allows me to serve at my highest level',
+                    'Money flows easily as I help others transform'
+                ],
+                creativity: [
+                    'I design innovative coaching experiences',
+                    'My creative approach makes transformation enjoyable',
+                    'I find unique solutions for each client\'s needs',
+                    'Creativity and coaching wisdom blend perfectly',
+                    'My imaginative methods create breakthrough results'
+                ],
+                courage: [
+                    'I ask the brave questions that create breakthroughs',
+                    'My courage to challenge clients serves their growth',
+                    'I speak truth with love and compassion',
+                    'I am bold in my commitment to client transformation',
+                    'My bravery in vulnerability models authentic living'
+                ]
+            }
+        };
+
+        function selectCreatorType(type) {
+            selectedCreatorType = type;
+            
+            // Update button states
+            document.querySelectorAll('.creator-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+        }
+
+        function selectMood(mood) {
+            selectedMood = mood;
+            
+            // Update button states
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-mood="${mood}"]`).classList.add('active');
+        }
+
+        function generateAffirmation() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 5;
+            const glowBoost = document.querySelector('input[name="glow-boost"]:checked').value === 'On';
+
+            // If no mood selected, pick a random one
+            const mood = selectedMood || ['confidence', 'motivation', 'calm', 'abundance', 'creativity', 'courage'][Math.floor(Math.random() * 6)];
+            
+            const affirmations = [];
+            const availableAffirmations = affirmationTemplates[selectedCreatorType][mood] || [];
+            
+            for (let i = 0; i < quantity; i++) {
+                let affirmation = availableAffirmations[Math.floor(Math.random() * availableAffirmations.length)];
+                
+                // Apply Glow-Up Boost
+                if (glowBoost) {
+                    affirmation = applyGlowBoost(affirmation);
+                }
+                
+                affirmations.push(affirmation);
+            }
+
+            currentAffirmation = affirmations.join('\n\n');
+            
+            if (quantity === 1) {
+                document.getElementById('affirmation-text').textContent = affirmations[0];
+            } else {
+                document.getElementById('affirmation-text').innerHTML = `${quantity} personalized affirmations generated!`;
+            }
+            
+            document.getElementById('output-textarea').value = currentAffirmation;
+        }
+
+        function applyGlowBoost(affirmation) {
+            const descriptor = glowDescriptors[Math.floor(Math.random() * glowDescriptors.length)];
+            
+            if (affirmation.includes('I am ')) {
+                return affirmation.replace('I am ', `I am ${descriptor} and `);
+            } else if (affirmation.includes('My ')) {
+                return affirmation.replace('My ', `My ${descriptor} `);
+            } else if (affirmation.startsWith('I ')) {
+                return affirmation.replace('I ', `I ${descriptor}ly `);
+            }
+            
+            return affirmation;
+        }
+
+        function glowUpBoost() {
+            if (currentAffirmation) {
+                const lines = currentAffirmation.split('\n\n');
+                const boostedLines = lines.map(line => {
+                    const descriptor = glowDescriptors[Math.floor(Math.random() * glowDescriptors.length)];
+                    if (line.includes('I am')) {
+                        return line.replace('I am', `I am ${descriptor} and`);
+                    } else if (line.includes('My')) {
+                        return line.replace('My', `My ${descriptor}`);
+                    }
+                    return line;
+                });
+                
+                currentAffirmation = boostedLines.join('\n\n');
+                document.getElementById('output-textarea').value = currentAffirmation;
+                document.getElementById('affirmation-text').textContent = boostedLines[0];
+            }
+        }
+
+        function addToBatch() {
+            if (currentAffirmation) {
+                const lines = currentAffirmation.split('\n\n');
+                lines.forEach(line => {
+                    if (line.trim() && !batchAffirmations.includes(line.trim())) {
+                        batchAffirmations.push(line.trim());
+                    }
+                });
+                updateBatchDisplay();
+            }
+        }
+
+        function updateBatchDisplay() {
+            const batchList = document.getElementById('batch-list');
+            batchList.innerHTML = '';
+            
+            batchAffirmations.forEach((affirmation, index) => {
+                const batchItem = document.createElement('div');
+                batchItem.className = 'batch-item';
+                batchItem.innerHTML = `
+                    <span>${affirmation}</span>
+                    <button onclick="removeBatchItem(${index})" style="background: #D17A2E; color: #F9F6F1; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">×</button>
+                `;
+                batchList.appendChild(batchItem);
+            });
+        }
+
+        function removeBatchItem(index) {
+            batchAffirmations.splice(index, 1);
+            updateBatchDisplay();
+        }
+
+        function copyOutput() {
+            const textarea = document.getElementById('output-textarea');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Copied to clipboard! ✨');
+        }
+
+        function copyAllBatch() {
+            const allText = batchAffirmations.join('\n\n');
+            navigator.clipboard.writeText(allText).then(() => {
+                alert('All batch affirmations copied! ✨');
+            });
+        }
+
+        function exportTXT() {
+            const allText = batchAffirmations.join('\n\n');
+            const blob = new Blob([allText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'affirmations.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearBatch() {
+            batchAffirmations = [];
+            updateBatchDisplay();
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tab + '-content').classList.add('active');
+        }
+
+        // Initialize
+        window.onload = function() {
+            generateAffirmation();
+        };
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9899e325106cf08d',t:'MTc1OTYzNTUxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
